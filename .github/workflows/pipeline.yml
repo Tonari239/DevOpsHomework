@@ -4,12 +4,14 @@ on:
   push:
     branches:
       - main
-
+env:
+  SNYK_TOKEN: ${{secrets.SNYK_TOKEN}}
 jobs:
   security-analysis:
     runs-on: ubuntu-latest
   
     steps:
+     
       - name: Checkout the code
         uses: actions/checkout@v2
         
@@ -17,8 +19,7 @@ jobs:
         run: npm install -g snyk
             
       - name: Authenticate with Snyk  
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_API_TOKEN }}
+       
         run: snyk auth
         
       - name: Test for vulnerabilities with Snyk
