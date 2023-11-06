@@ -54,7 +54,7 @@ jobs:
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: 'docker.io/saltytoona/devopsimage:${{ github.sha }}'
+          image-ref: 'docker.io/${{secrets.DOCKERHUB_USERNAME }}/devopsimage:latest'
           format: 'table'
           exit-code: '1'
           ignore-unfixed: true
@@ -63,4 +63,3 @@ jobs:
           
       - name: Push Docker image to DockerHub
         run: docker push ${{secrets.DOCKERHUB_USERNAME }}/devopsimage:latest
-        # Replace your-dockerhub-username and your-image-name with your DockerHub username and the desired image name.
