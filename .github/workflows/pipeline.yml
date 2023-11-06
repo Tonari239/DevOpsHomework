@@ -6,6 +6,19 @@ on:
       - main
 
 jobs:
+  security-analysis:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v2
+
+      - name: Install Snyk CLI
+        run: npm install -g snyk
+
+      - name: Test for vulnerabilities with Snyk
+        run: snyk test --all-projects
+
   docker-configuration:
     runs-on: ubuntu-latest
 
@@ -17,11 +30,8 @@ jobs:
         run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
 
       - name: Build the Docker image
-        run: docker build -t ${{secrets.DOCKERHUB_USERNAME }}/devopsimage:latest .
+        run: docker build -t your-dockerhub-username/your-image-name:latest .
         working-directory: .
-        # Replace your-dockerhub-username and your-image-name with your DockerHub username and the desired image name.
 
       - name: Push Docker image to DockerHub
-        run: docker push ${{secrets.DOCKERHUB_USERNAME }}/devopsimage:latest
-        # Replace your-dockerhub-username and your-image-name with your DockerHub username and the desired image name.
-
+        run: docker push your-dockerhub-username/your-image-name:latest
