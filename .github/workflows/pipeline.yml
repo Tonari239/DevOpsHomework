@@ -36,6 +36,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          organization: tonari239   
+          project: Tonari239_DevOpsHomework 
 
   docker-configuration:
     runs-on: ubuntu-latest
