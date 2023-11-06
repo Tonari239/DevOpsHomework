@@ -1,19 +1,27 @@
 name: CI
+
 on:
   push:
-    branches: [ "main" ]
-  workflow_dispatch:
+    branches:
+      - main
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   docker-configuration:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      # Runs a single command using the runners shell
-      - name: Build the docker image
-        run: docker build --no-cache -t devopsimage .
 
-      # Runs a set of commands using the runners shell
-      - name: Push docker image to the docker hub
-        run: docker push devopsimage
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v2
+
+      - name: Login to DockerHub
+        run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Build the Docker image
+        run: docker build -t ${{secrets.DOCKERHUB_USERNAME }}/devopsimage:latest .
+        working-directory: .
+        # Replace your-dockerhub-username and your-image-name with your DockerHub username and the desired image name.
+
+      - name: Push Docker image to DockerHub
+        run: docker push ${{secrets.DOCKERHUB_USERNAME }}/devopsimage:latest
+        # Replace your-dockerhub-username and your-image-name with your DockerHub username and the desired image name.
+
