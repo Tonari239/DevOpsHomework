@@ -1,1 +1,27 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  docker-configuration:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v2
+
+      - name: Login to DockerHub
+        run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Build the Docker image
+        run: docker build -t ${{secrets.DOCKERHUB_USERNAME }}/devopsimage:latest .
+        working-directory: .
+        # Replace your-dockerhub-username and your-image-name with your DockerHub username and the desired image name.
+
+      - name: Push Docker image to DockerHub
+        run: docker push ${{secrets.DOCKERHUB_USERNAME }}/devopsimage:latest
+        # Replace your-dockerhub-username and your-image-name with your DockerHub username and the desired image name.
 
